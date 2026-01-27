@@ -22,10 +22,15 @@
     </style>
 </head>
 <body>
-    <audio autoplay loop>
+    <audio autoplay loop muted>
         <source src="its-the-vibe.mp3" type="audio/mpeg">
     </audio>
     <script>
+        // Auto-unmute on first mouse movement
+        document.addEventListener('mousemove', () => {
+            document.querySelector('audio').muted = false;
+        }, { once: true });
+
         let scrollSpeed = 2; // pixels per frame
         setInterval(() => {
             window.scrollBy(0, scrollSpeed);

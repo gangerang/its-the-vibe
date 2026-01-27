@@ -13,7 +13,7 @@
 
         body {
             width: 100vw;
-            height: 100vh;
+            min-height: 300vh;
             background-image: url('its-the-vibe.gif');
             background-repeat: repeat;
             background-size: auto;
@@ -22,5 +22,15 @@
     </style>
 </head>
 <body>
+    <script>
+        let scrollSpeed = 2; // pixels per frame
+        setInterval(() => {
+            window.scrollBy(0, scrollSpeed);
+            // Reset to top when reaching bottom
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                window.scrollTo(0, 0);
+            }
+        }, 20);
+    </script>
 </body>
 </html>

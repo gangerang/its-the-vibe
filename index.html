@@ -312,7 +312,7 @@
     <!-- Toast notification -->
     <div id="toast"></div>
 
-    <audio id="main-audio" autoplay loop muted>
+    <audio id="main-audio" preload="auto">
         <source src="its-the-vibe.mp3" type="audio/mpeg">
     </audio>
 
@@ -321,10 +321,29 @@
         // ORIGINAL FUNCTIONALITY
         // ================================
         const audio = document.getElementById('main-audio');
+        let audioStarted = false;
+        let audioInterval = null;
 
-        document.addEventListener('mousemove', () => {
-            audio.muted = false;
-        }, { once: true });
+        function startAudioLoop() {
+            if (audioStarted) return;
+            audioStarted = true;
+            audio.currentTime = 0;
+            audio.volume = 1;
+            audio.play().catch(() => {});
+
+            // Replay from the start every 20 seconds
+            audioInterval = setInterval(() => {
+                if (serenityActive) return;
+                audio.currentTime = 0;
+                audio.volume = 1;
+                audio.play().catch(() => {});
+            }, 20000);
+        }
+
+        // Start audio on first user interaction (mouse move, click, or touch)
+        ['mousemove', 'click', 'touchstart'].forEach(evt => {
+            document.addEventListener(evt, () => startAudioLoop(), { once: true });
+        });
 
         let scrollSpeed = 2;
         let scrolling = true;
@@ -515,6 +534,9 @@
             serenityActive = true;
             scrolling = false;
 
+            // Stop the audio replay interval during serenity
+            if (audioInterval) clearInterval(audioInterval);
+
             // Fade out the audio
             let vol = audio.volume;
             const fadeAudio = setInterval(() => {
@@ -550,10 +572,19 @@
                 flashOverlay.classList.remove('active');
 
                 // Resume chaos - LOUDER
-                audio.volume = 1;
-                audio.play();
-                scrolling = true;
                 serenityActive = false;
+                audio.currentTime = 0;
+                audio.volume = 1;
+                audio.play().catch(() => {});
+                scrolling = true;
+
+                // Restart the 20-second audio loop
+                audioInterval = setInterval(() => {
+                    if (serenityActive) return;
+                    audio.currentTime = 0;
+                    audio.volume = 1;
+                    audio.play().catch(() => {});
+                }, 20000);
 
                 // Increase scroll speed post-serenity for extra chaos
                 scrollSpeed = 4;

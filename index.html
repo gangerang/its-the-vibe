@@ -18,27 +18,522 @@
             background-repeat: repeat;
             background-size: auto;
             background-position: 0 0;
+            cursor: none;
+        }
+
+        /* ===================== */
+        /* DENNIS FACE CURSOR    */
+        /* ===================== */
+        #dennis-cursor {
+            position: fixed;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            background-image: url('its-the-vibe.gif');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid white;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        /* ===================== */
+        /* FLOATING QUOTES       */
+        /* ===================== */
+        .floating-quote {
+            position: fixed;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: bold;
+            color: white;
+            text-shadow:
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                0 0 20px rgba(255, 215, 0, 0.6);
+            pointer-events: none;
+            z-index: 5000;
+            white-space: nowrap;
+            animation: floatAcross linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes floatAcross {
+            0%   { transform: translateX(-100%) rotate(-5deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translateX(calc(100vw + 100%)) rotate(5deg); opacity: 0; }
+        }
+
+        /* ===================== */
+        /* SPAWNED DENUTOS       */
+        /* ===================== */
+        .spawned-denuto {
+            position: fixed;
+            pointer-events: none;
+            z-index: 4000;
+            animation: denutoFloat 6s ease-in-out forwards;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes denutoFloat {
+            0%   { transform: scale(0) rotate(0deg); opacity: 1; }
+            10%  { transform: scale(1.2) rotate(15deg); opacity: 1; }
+            20%  { transform: scale(1) rotate(-5deg); opacity: 1; }
+            80%  { transform: scale(1) rotate(360deg); opacity: 0.8; }
+            100% { transform: scale(0.3) rotate(720deg) translateY(-200px); opacity: 0; }
+        }
+
+        /* ===================== */
+        /* SERENITY MODE         */
+        /* ===================== */
+        #serenity-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 20000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
+            opacity: 0;
+        }
+
+        #serenity-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        #serenity-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                #87CEEB 0%,
+                #87CEEB 40%,
+                #4A90B8 40%,
+                #3A7CA5 50%,
+                #2E6B93 55%,
+                #1a5276 100%
+            );
+        }
+
+        /* Sun */
+        #serenity-bg::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            right: 20%;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #FFD700;
+            box-shadow: 0 0 60px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Clouds */
+        #serenity-bg::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 120px;
+            height: 40px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow:
+                160px 15px 0 10px rgba(255, 255, 255, 0.7),
+                320px -10px 0 5px rgba(255, 255, 255, 0.6),
+                50px 60px 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        #serenity-text {
+            position: relative;
+            z-index: 2;
+            font-family: 'Georgia', serif;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: serenityFadeIn 2s ease forwards 0.5s;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        @keyframes serenityFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flash-back effect */
+        #flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 30000;
+            display: none;
+            opacity: 0;
+        }
+
+        #flash-overlay.active {
+            display: block;
+            animation: flashBang 0.4s ease-out forwards;
+        }
+
+        @keyframes flashBang {
+            0%   { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ===================== */
+        /* SHARE THE VIBE BUTTON */
+        /* ===================== */
+        #share-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9000;
+            background: rgba(0, 0, 0, 0.7);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            padding: 12px 20px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: none;
+            transition: all 0.3s ease;
+            pointer-events: all;
+        }
+
+        #share-btn:hover {
+            background: #FFD700;
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 9001;
+            background: rgba(0, 0, 0, 0.85);
+            color: #FFD700;
+            padding: 14px 22px;
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            border: 1px solid #FFD700;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+            max-width: 320px;
+        }
+
+        #toast.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <audio autoplay loop muted>
+
+    <!-- Dennis face cursor -->
+    <div id="dennis-cursor"></div>
+
+    <!-- Serenity mode overlay -->
+    <div id="serenity-overlay">
+        <div id="serenity-bg"></div>
+        <div id="serenity-text">How's the serenity?</div>
+    </div>
+
+    <!-- Flash-back overlay -->
+    <div id="flash-overlay"></div>
+
+    <!-- Share the vibe button -->
+    <button id="share-btn">Share the Vibe</button>
+
+    <!-- Toast notification -->
+    <div id="toast"></div>
+
+    <audio id="main-audio" autoplay loop muted>
         <source src="its-the-vibe.mp3" type="audio/mpeg">
     </audio>
+
     <script>
-        // Auto-unmute on first mouse movement
+        // ================================
+        // ORIGINAL FUNCTIONALITY
+        // ================================
+        const audio = document.getElementById('main-audio');
+
         document.addEventListener('mousemove', () => {
-            document.querySelector('audio').muted = false;
+            audio.muted = false;
         }, { once: true });
 
-        let scrollSpeed = 2; // pixels per frame
-        setInterval(() => {
+        let scrollSpeed = 2;
+        let scrolling = true;
+
+        const scrollInterval = setInterval(() => {
+            if (!scrolling) return;
             window.scrollBy(0, scrollSpeed);
-            // Reset to top when reaching bottom
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 window.scrollTo(0, 0);
             }
         }, 20);
+
+        // ================================
+        // 1. DENNIS FACE CURSOR
+        // ================================
+        const dennisCursor = document.getElementById('dennis-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            dennisCursor.style.display = 'block';
+            dennisCursor.style.left = e.clientX + 'px';
+            dennisCursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            dennisCursor.style.display = 'none';
+        });
+
+        // ================================
+        // 2. FLOATING QUOTES
+        // ================================
+        const quotes = [
+            "It's the vibe of the thing, your Honour.",
+            "Tell him he's dreamin'!",
+            "How's the serenity?",
+            "That's going straight to the pool room.",
+            "It's the Constitution, it's Mabo, it's justice, it's law, it's the vibe...",
+            "Suffer in ya jocks!",
+            "Dad reckoned he was wrong.",
+            "What do you call this, love? Chicken.",
+            "This is going straight to the pool room!",
+            "Dale dug a hole.",
+            "In summing up... it's the vibe. I rest my case.",
+            "You can't buy what I've got.",
+            "A man's home is his castle.",
+            "We're going to Bonnie Doon!",
+            "It's not a house. It's a home.",
+            "Jousting sticks!",
+            "I'm a ideas man, Steve."
+        ];
+
+        const quoteSizes = ['1.2rem', '1.6rem', '2rem', '2.5rem', '1.4rem', '1.8rem'];
+        const quoteColors = ['#FFFFFF', '#FFD700', '#FF6B6B', '#7BFFB4', '#7BB3FF', '#FF7BF0'];
+
+        function spawnQuote() {
+            const quote = document.createElement('div');
+            quote.className = 'floating-quote';
+            quote.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+            const size = quoteSizes[Math.floor(Math.random() * quoteSizes.length)];
+            const color = quoteColors[Math.floor(Math.random() * quoteColors.length)];
+            const topPos = Math.random() * 80 + 5;
+            const duration = Math.random() * 8 + 7;
+
+            quote.style.fontSize = size;
+            quote.style.color = color;
+            quote.style.top = topPos + '%';
+            quote.style.animationDuration = duration + 's';
+
+            document.body.appendChild(quote);
+
+            setTimeout(() => quote.remove(), duration * 1000 + 100);
+        }
+
+        // Spawn quotes at random intervals
+        function scheduleQuote() {
+            const delay = Math.random() * 3000 + 1500;
+            setTimeout(() => {
+                if (!serenityActive) spawnQuote();
+                scheduleQuote();
+            }, delay);
+        }
+        scheduleQuote();
+
+        // ================================
+        // 3. CLICK TO SPAWN DENUTOS
+        // ================================
+        let denutoCount = 0;
+
+        document.addEventListener('click', (e) => {
+            // Don't spawn on share button
+            if (e.target.id === 'share-btn') return;
+            if (serenityActive) return;
+
+            denutoCount++;
+
+            const denuto = document.createElement('img');
+            denuto.src = 'its-the-vibe.gif';
+            denuto.className = 'spawned-denuto';
+
+            const size = Math.random() * 120 + 60;
+            denuto.style.width = size + 'px';
+            denuto.style.height = size + 'px';
+            denuto.style.left = (e.clientX - size / 2) + 'px';
+            denuto.style.top = (e.clientY - size / 2) + 'px';
+
+            document.body.appendChild(denuto);
+
+            setTimeout(() => denuto.remove(), 6100);
+
+            // Easter egg: after 10 clicks, briefly flash a quote
+            if (denutoCount === 10) {
+                showToast("Dennis Denuto would be proud. That's going straight to the pool room.");
+            }
+            if (denutoCount === 25) {
+                showToast("You've summoned " + denutoCount + " Denutos. The vibe is reaching critical mass.");
+            }
+            if (denutoCount === 50) {
+                showToast("50 Denutos. In summing up... it's the vibe. You rest your case.");
+            }
+        });
+
+        // ================================
+        // 4. SERENITY MODE
+        // ================================
+        let serenityActive = false;
+        let serenityTriggered = false;
+
+        const serenityOverlay = document.getElementById('serenity-overlay');
+        const flashOverlay = document.getElementById('flash-overlay');
+
+        setTimeout(() => {
+            if (serenityTriggered) return;
+            serenityTriggered = true;
+            activateSerenity();
+        }, 60000); // 60 seconds
+
+        function activateSerenity() {
+            serenityActive = true;
+            scrolling = false;
+
+            // Fade out the audio
+            let vol = audio.volume;
+            const fadeAudio = setInterval(() => {
+                vol -= 0.05;
+                if (vol <= 0) {
+                    vol = 0;
+                    audio.pause();
+                    clearInterval(fadeAudio);
+                }
+                audio.volume = vol;
+            }, 100);
+
+            // Show serene overlay
+            serenityOverlay.classList.add('active');
+            // Fade in
+            requestAnimationFrame(() => {
+                serenityOverlay.style.opacity = '1';
+            });
+
+            // After 4 seconds — SNAP BACK TO CHAOS
+            setTimeout(() => {
+                endSerenity();
+            }, 4000);
+        }
+
+        function endSerenity() {
+            // Flash!
+            flashOverlay.classList.add('active');
+
+            setTimeout(() => {
+                serenityOverlay.classList.remove('active');
+                serenityOverlay.style.opacity = '0';
+                flashOverlay.classList.remove('active');
+
+                // Resume chaos - LOUDER
+                audio.volume = 1;
+                audio.play();
+                scrolling = true;
+                serenityActive = false;
+
+                // Increase scroll speed post-serenity for extra chaos
+                scrollSpeed = 4;
+
+                // Burst of quotes
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => spawnQuote(), i * 300);
+                }
+
+                // Spawn a bunch of Denutos
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const fakeEvent = {
+                            clientX: Math.random() * window.innerWidth,
+                            clientY: Math.random() * window.innerHeight
+                        };
+                        const denuto = document.createElement('img');
+                        denuto.src = 'its-the-vibe.gif';
+                        denuto.className = 'spawned-denuto';
+                        const size = Math.random() * 150 + 80;
+                        denuto.style.width = size + 'px';
+                        denuto.style.height = size + 'px';
+                        denuto.style.left = (fakeEvent.clientX - size / 2) + 'px';
+                        denuto.style.top = (fakeEvent.clientY - size / 2) + 'px';
+                        document.body.appendChild(denuto);
+                        setTimeout(() => denuto.remove(), 6100);
+                    }, i * 200);
+                }
+
+                // Gradually return to normal speed
+                setTimeout(() => { scrollSpeed = 2; }, 10000);
+
+            }, 400);
+        }
+
+        // ================================
+        // 5. SHARE THE VIBE BUTTON
+        // ================================
+        const shareBtn = document.getElementById('share-btn');
+        const toast = document.getElementById('toast');
+
+        const shareMessages = [
+            "The vibe has been shared. You cannot undo this.",
+            "You have spread the vibe. Dennis Denuto smiles upon you.",
+            "The vibe is now loose. What have you done.",
+            "In summing up... the vibe has been shared. You rest your case.",
+            "Link copied. It's the Constitution, it's Mabo, it's the clipboard.",
+            "That link's going straight to the pool room.",
+            "The vibe has been transmitted. There is no antidote."
+        ];
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('visible');
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 4000);
+        }
+
+        shareBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Copy URL to clipboard
+            navigator.clipboard.writeText('https://www.its-the-vibe.com').then(() => {
+                const msg = shareMessages[Math.floor(Math.random() * shareMessages.length)];
+                showToast(msg);
+            }).catch(() => {
+                showToast("The vibe refused to be contained by your clipboard.");
+            });
+        });
     </script>
 </body>
 </html>

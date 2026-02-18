@@ -32,7 +32,7 @@
             pointer-events: none;
             z-index: 10000;
             transform: translate(-50%, -50%);
-            background-image: url('its-the-vibe.gif');
+            background-image: url('dennis-cursor.png');
             background-size: cover;
             background-position: center;
             border: 2px solid white;
@@ -57,15 +57,55 @@
             pointer-events: none;
             z-index: 5000;
             white-space: nowrap;
-            animation: floatAcross linear forwards;
             opacity: 0;
         }
 
-        @keyframes floatAcross {
+        /* Left to right */
+        @keyframes floatFromLeft {
             0%   { transform: translateX(-100%) rotate(-5deg); opacity: 0; }
             5%   { opacity: 1; }
             95%  { opacity: 1; }
             100% { transform: translateX(calc(100vw + 100%)) rotate(5deg); opacity: 0; }
+        }
+
+        /* Right to left */
+        @keyframes floatFromRight {
+            0%   { transform: translateX(calc(100vw + 100%)) rotate(5deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translateX(-100%) rotate(-5deg); opacity: 0; }
+        }
+
+        /* Top to bottom */
+        @keyframes floatFromTop {
+            0%   { transform: translateY(-100%) rotate(-3deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translateY(calc(100vh + 100%)) rotate(3deg); opacity: 0; }
+        }
+
+        /* Bottom to top */
+        @keyframes floatFromBottom {
+            0%   { transform: translateY(calc(100vh + 100%)) rotate(3deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translateY(-100%) rotate(-3deg); opacity: 0; }
+        }
+
+        /* Diagonal top-left to bottom-right */
+        @keyframes floatDiagonalTLBR {
+            0%   { transform: translate(-100%, -100%) rotate(-8deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translate(calc(100vw + 100%), calc(100vh + 100%)) rotate(8deg); opacity: 0; }
+        }
+
+        /* Diagonal bottom-right to top-left */
+        @keyframes floatDiagonalBRTL {
+            0%   { transform: translate(calc(100vw + 100%), calc(100vh + 100%)) rotate(8deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translate(-100%, -100%) rotate(-8deg); opacity: 0; }
         }
 
         /* ===================== */
@@ -76,8 +116,12 @@
             pointer-events: none;
             z-index: 4000;
             animation: denutoFloat 6s ease-in-out forwards;
-            border-radius: 12px;
+            border-radius: 50%;
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            background-image: url('dennis-cursor.png');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid white;
         }
 
         @keyframes denutoFloat {
@@ -250,6 +294,67 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* ===================== */
+        /* VISITOR COUNTER       */
+        /* ===================== */
+        #visitor-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9000;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 8px 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            pointer-events: none;
+            text-align: center;
+            line-height: 1.4;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+        }
+
+        #visitor-counter .counter-label {
+            font-size: 0.65rem;
+            color: #888;
+            text-shadow: none;
+        }
+
+        /* ===================== */
+        /* LEGAL DISCLAIMER      */
+        /* ===================== */
+        #legal-disclaimer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 8000;
+            background: rgba(0, 0, 0, 0.85);
+            color: #aaa;
+            padding: 20px 30px;
+            font-family: 'Georgia', serif;
+            font-size: 0.75rem;
+            line-height: 1.6;
+            text-align: center;
+            border-top: 1px solid #333;
+            box-sizing: border-box;
+        }
+
+        #legal-disclaimer .legal-title {
+            color: #FFD700;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        #legal-disclaimer .legal-body {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #999;
+        }
     </style>
 </head>
 <body>
@@ -272,8 +377,28 @@
     <!-- Toast notification -->
     <div id="toast"></div>
 
-    <audio id="main-audio" autoplay loop muted>
+    <!-- Visitor counter -->
+    <div id="visitor-counter">
+        <div class="counter-label">YOU ARE VISITOR</div>
+        <div id="visitor-number">#1,247,803,442</div>
+    </div>
+
+    <!-- Legal disclaimer (at the very bottom — good luck scrolling here) -->
+    <div id="legal-disclaimer">
+        <div class="legal-title">LEGAL DISCLAIMER</div>
+        <div class="legal-body">
+            In summing up, it's the Constitution, it's Mabo, it's justice, it's law, it's the vibe and&hellip; no, that's it. It's the vibe. The contents of this website do not constitute legal advice. Dennis Denuto is not a real solicitor. Well, he is, but he shouldn't be. Any resemblance to actual legal proceedings is purely vibes-based. Section 51 of the Constitution may or may not apply. We checked. We couldn't find it. But it's in there somewhere. The vibe rests its case.
+        </div>
+    </div>
+
+    <audio id="main-audio" preload="auto">
         <source src="its-the-vibe.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="serenity-audio" preload="auto">
+        <source src="hows-the-serenity.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bonnie-doon-audio" preload="auto">
+        <source src="were-going-to-bonnie-doon.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -281,10 +406,67 @@
         // ORIGINAL FUNCTIONALITY
         // ================================
         const audio = document.getElementById('main-audio');
+        const bonnieDoonAudio = document.getElementById('bonnie-doon-audio');
+        const serenityAudio = document.getElementById('serenity-audio');
+        let audioStarted = false;
+        let vibeInterval = null;
+        let bonnieInterval = null;
 
-        document.addEventListener('mousemove', () => {
-            audio.muted = false;
-        }, { once: true });
+        function playAudio(el) {
+            el.currentTime = 0;
+            el.volume = 1;
+            return el.play().catch(() => {});
+        }
+
+        // Play bonnie doon 3 times in a row (~4s each)
+        function playBonnieDoon3x() {
+            if (serenityActive) return;
+            let count = 0;
+            function playNext() {
+                if (count >= 3 || serenityActive) return;
+                count++;
+                bonnieDoonAudio.currentTime = 0;
+                bonnieDoonAudio.volume = 1;
+                bonnieDoonAudio.play().catch(() => {});
+                bonnieDoonAudio.onended = playNext;
+            }
+            playNext();
+        }
+
+        function startAudioLoops() {
+            // "It's the vibe" plays every 30 seconds (starting at 0s)
+            vibeInterval = setInterval(() => {
+                if (serenityActive) return;
+                playAudio(audio);
+            }, 30000);
+
+            // "Bonnie Doon" x3 plays every 30 seconds (starting at 15s offset)
+            setTimeout(() => {
+                playBonnieDoon3x();
+                bonnieInterval = setInterval(() => {
+                    playBonnieDoon3x();
+                }, 30000);
+            }, 15000);
+        }
+
+        function startAudioLoop() {
+            if (audioStarted) return;
+            audio.currentTime = 0;
+            audio.volume = 1;
+            audio.play().then(() => {
+                // Only mark as started if play actually succeeded
+                audioStarted = true;
+                startAudioLoops();
+            }).catch(() => {
+                // Play was blocked — leave audioStarted false so we retry on next interaction
+            });
+        }
+
+        // Start audio on first user interaction (click or touch — these are
+        // "strong" user gestures that browsers trust for audio playback)
+        ['click', 'touchstart', 'keydown'].forEach(evt => {
+            document.addEventListener(evt, () => startAudioLoop(), { once: false });
+        });
 
         let scrollSpeed = 2;
         let scrolling = true;
@@ -316,27 +498,65 @@
         // 2. FLOATING QUOTES
         // ================================
         const quotes = [
+            // Dennis Denuto courtroom classics
             "It's the vibe of the thing, your Honour.",
-            "Tell him he's dreamin'!",
-            "How's the serenity?",
-            "That's going straight to the pool room.",
             "It's the Constitution, it's Mabo, it's justice, it's law, it's the vibe...",
-            "Suffer in ya jocks!",
-            "Dad reckoned he was wrong.",
-            "What do you call this, love? Chicken.",
-            "This is going straight to the pool room!",
-            "Dale dug a hole.",
             "In summing up... it's the vibe. I rest my case.",
+            "It's just the vibe of the thing.",
+            "There is no one section...",
+            "I'd like to refer to a particular section...",
+            "Could I have a moment, your Honour?",
+            "This is a matter of... the vibe.",
+            // Darryl Kerrigan
+            "Tell him he's dreamin'!",
+            "That's going straight to the pool room.",
+            "This is going straight to the pool room!",
+            "How's the serenity?",
+            "We're going to Bonnie Doon!",
             "You can't buy what I've got.",
             "A man's home is his castle.",
-            "We're going to Bonnie Doon!",
             "It's not a house. It's a home.",
             "Jousting sticks!",
-            "I'm a ideas man, Steve."
+            "Dale dug a hole.",
+            "What do you call this, love? Chicken.",
+            "I dug another hole.",
+            "Ah, the old overhead kick!",
+            "You can do anything if you set your mind to it.",
+            "How much do you reckon? Eh? Take a guess!",
+            "Dad reckoned fishing was 10% brains, 95% muscle, the rest was just good luck.",
+            // Sal & family
+            "Suffer in ya jocks!",
+            "Dad reckoned he was wrong.",
+            "I'm a ideas man, Steve.",
+            "What a beautiful set of gates!",
+            "Ah, power lines. How much did that set ya back?",
+            "He doesn't complain... much.",
+            "And this is where we entertain.",
+            "The dog's watching telly.",
+            "It's a bit of a rumpus room.",
+            // Lawrence Hammill / legal
+            "The law of compulsory acquisition...",
+            "Section 51... it's in there somewhere.",
+            "The vibe of the Constitution!",
+            "Every Australian should have a copy.",
+            // Misc vibes
+            "It's the vibe... and that's it.",
+            "Your Honour, may I approach the bench?",
+            "This home is worth more than you'll ever know.",
+            "I'd trade my law degree for a set of jousting sticks."
         ];
 
         const quoteSizes = ['1.2rem', '1.6rem', '2rem', '2.5rem', '1.4rem', '1.8rem'];
         const quoteColors = ['#FFFFFF', '#FFD700', '#FF6B6B', '#7BFFB4', '#7BB3FF', '#FF7BF0'];
+
+        const floatAnimations = [
+            { name: 'floatFromLeft',     posAxis: 'top',  posRange: [5, 85] },
+            { name: 'floatFromRight',    posAxis: 'top',  posRange: [5, 85] },
+            { name: 'floatFromTop',      posAxis: 'left', posRange: [5, 75] },
+            { name: 'floatFromBottom',   posAxis: 'left', posRange: [5, 75] },
+            { name: 'floatDiagonalTLBR', posAxis: 'none', posRange: [0, 0]  },
+            { name: 'floatDiagonalBRTL', posAxis: 'none', posRange: [0, 0]  },
+        ];
 
         function spawnQuote() {
             const quote = document.createElement('div');
@@ -345,13 +565,25 @@
 
             const size = quoteSizes[Math.floor(Math.random() * quoteSizes.length)];
             const color = quoteColors[Math.floor(Math.random() * quoteColors.length)];
-            const topPos = Math.random() * 80 + 5;
             const duration = Math.random() * 8 + 7;
+            const anim = floatAnimations[Math.floor(Math.random() * floatAnimations.length)];
 
             quote.style.fontSize = size;
             quote.style.color = color;
-            quote.style.top = topPos + '%';
+            quote.style.animationName = anim.name;
             quote.style.animationDuration = duration + 's';
+            quote.style.animationTimingFunction = 'linear';
+            quote.style.animationFillMode = 'forwards';
+
+            // Position on the appropriate axis
+            if (anim.posAxis === 'top') {
+                const pos = Math.random() * (anim.posRange[1] - anim.posRange[0]) + anim.posRange[0];
+                quote.style.top = pos + '%';
+            } else if (anim.posAxis === 'left') {
+                const pos = Math.random() * (anim.posRange[1] - anim.posRange[0]) + anim.posRange[0];
+                quote.style.left = pos + '%';
+            }
+            // Diagonal animations don't need positioning — they go corner to corner
 
             document.body.appendChild(quote);
 
@@ -380,8 +612,7 @@
 
             denutoCount++;
 
-            const denuto = document.createElement('img');
-            denuto.src = 'its-the-vibe.gif';
+            const denuto = document.createElement('div');
             denuto.className = 'spawned-denuto';
 
             const size = Math.random() * 120 + 60;
@@ -415,17 +646,25 @@
         const serenityOverlay = document.getElementById('serenity-overlay');
         const flashOverlay = document.getElementById('flash-overlay');
 
+        // Trigger serenity at 52s — safely between the audio cycles
+        // (vibe plays at 0/30/60s, bonnie at 15/45s, so 52s is in a quiet gap)
         setTimeout(() => {
             if (serenityTriggered) return;
             serenityTriggered = true;
             activateSerenity();
-        }, 60000); // 60 seconds
+        }, 52000);
 
         function activateSerenity() {
             serenityActive = true;
             scrolling = false;
 
-            // Fade out the audio
+            // Stop audio loops during serenity
+            if (vibeInterval) clearInterval(vibeInterval);
+            if (bonnieInterval) clearInterval(bonnieInterval);
+            bonnieDoonAudio.onended = null;
+            bonnieDoonAudio.pause();
+
+            // Fade out all audio, then play serenity sound
             let vol = audio.volume;
             const fadeAudio = setInterval(() => {
                 vol -= 0.05;
@@ -433,6 +672,9 @@
                     vol = 0;
                     audio.pause();
                     clearInterval(fadeAudio);
+
+                    // Audio fully faded — now play serenity sound
+                    playAudio(serenityAudio);
                 }
                 audio.volume = vol;
             }, 100);
@@ -444,10 +686,11 @@
                 serenityOverlay.style.opacity = '1';
             });
 
-            // After 4 seconds — SNAP BACK TO CHAOS
+            // After 5 seconds — SNAP BACK TO CHAOS
+            // (extra second to let the serenity sound breathe)
             setTimeout(() => {
                 endSerenity();
-            }, 4000);
+            }, 5000);
         }
 
         function endSerenity() {
@@ -460,10 +703,15 @@
                 flashOverlay.classList.remove('active');
 
                 // Resume chaos - LOUDER
-                audio.volume = 1;
-                audio.play();
-                scrolling = true;
                 serenityActive = false;
+                serenityAudio.pause();
+                audio.currentTime = 0;
+                audio.volume = 1;
+                audio.play().catch(() => {});
+                scrolling = true;
+
+                // Restart the alternating audio loops
+                startAudioLoops();
 
                 // Increase scroll speed post-serenity for extra chaos
                 scrollSpeed = 4;
@@ -480,8 +728,7 @@
                             clientX: Math.random() * window.innerWidth,
                             clientY: Math.random() * window.innerHeight
                         };
-                        const denuto = document.createElement('img');
-                        denuto.src = 'its-the-vibe.gif';
+                        const denuto = document.createElement('div');
                         denuto.className = 'spawned-denuto';
                         const size = Math.random() * 150 + 80;
                         denuto.style.width = size + 'px';
@@ -534,6 +781,17 @@
                 showToast("The vibe refused to be contained by your clipboard.");
             });
         });
+
+        // ================================
+        // 6. FAKE VISITOR COUNTER
+        // ================================
+        const visitorNumber = document.getElementById('visitor-number');
+        let visitorCount = 1247803442 + Math.floor(Math.random() * 500);
+
+        setInterval(() => {
+            visitorCount += Math.floor(Math.random() * 47) + 3;
+            visitorNumber.textContent = '#' + visitorCount.toLocaleString();
+        }, Math.random() * 800 + 400);
     </script>
 </body>
 </html>
